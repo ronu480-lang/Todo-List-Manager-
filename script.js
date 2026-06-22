@@ -29,13 +29,13 @@ function addTodo() {
     addBtn.innerText = "Add";
     addBtn.classList.remove("update-mode");
   } else {
-    let newTodo = {
-      id: Date.now(),
-      text: task,
-      completed: false,
-      time: new Date().toLocaleTimeString()
-    };
-
+   let newTodo = {
+  id: Date.now(),
+  text: task,
+  completed: false,
+  date: new Date().toLocaleDateString(), // Date
+  time: new Date().toLocaleTimeString()  // Time
+};
     todos.push(newTodo);
   }
 
@@ -56,12 +56,14 @@ function showTodos() {
         <input type="checkbox" ${todo.completed ? "checked" : ""} onchange="toggleTodo(${todo.id})">
 
         <div>
-          <span class="task-text ${todo.completed ? "completed" : ""}">
-            ${todo.text}
-          </span>
-          <br>
-          <small class="task-time">${todo.time}</small>
-        </div>
+  <span class="task-text ${todo.completed ? "completed" : ""}">
+    ${todo.text}
+  </span>
+  <br>
+  <small class="task-time">
+    📅 ${todo.date} &nbsp;&nbsp; 🕒 ${todo.time}
+  </small>
+</div>
       </div>
 
       <div class="action-buttons">
