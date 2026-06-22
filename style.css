@@ -138,7 +138,32 @@ button {
 }
 
 @media (max-width: 600px) {
+
+  .container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .todo-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .todo-left {
+    width: 100%;
+  }
+
   .action-buttons {
-    gap: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    width: 70px;
+    height: 35px;
   }
 }
