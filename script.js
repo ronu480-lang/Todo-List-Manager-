@@ -1,10 +1,9 @@
 const todoInput = document.getElementById("todoInput");
 const addBtn = document.getElementById("addBtn");
 const todoList = document.getElementById("todoList");
-const filterBtns = document.querySelectorAll(".filter-btn");
 
 let todos = JSON.parse(localStorage.getItem("todos")) || [];
-let currentFilter = "all";
+let editId = null;
 
 showTodos();
 
@@ -18,47 +17,56 @@ function addTodo() {
     return;
   }
 
-  let newTodo = {
-    id: Date.now(),
-    text: task,
-    completed: false
-  };
+  if (editId !== null) {
+    todos = todos.map(function(todo) {
+      if (todo.id === editId) {
+        todo.text = task;
+      }
+      return todo;
+    });
 
-  todos.push(newTodo);
+    editId = null;
+    addBtn.innerText = "Add";
+  } else {
+    let newTodo = {
+      id: Date.now(),
+      text: task,
+      completed: false,
+      time: new Date().toLocaleTimeString()
+    };
+
+    todos.push(newTodo);
+  }
+
   saveTodos();
   showTodos();
-
   todoInput.value = "";
 }
 
 function showTodos() {
   todoList.innerHTML = "";
 
-  let filteredTodos = todos;
-
-  if (currentFilter === "active") {
-    filteredTodos = todos.filter(function(todo) {
-      return todo.completed === false;
-    });
-  }
-
-  if (currentFilter === "completed") {
-    filteredTodos = todos.filter(function(todo) {
-      return todo.completed === true;
-    });
-  }
-
-  filteredTodos.forEach(function(todo) {
+  todos.forEach(function(todo) {
     let li = document.createElement("li");
     li.className = "todo-item";
 
     li.innerHTML = `
       <div class="todo-left">
         <input type="checkbox" ${todo.completed ? "checked" : ""} onchange="toggleTodo(${todo.id})">
-        <span class="${todo.completed ? "completed" : ""}">${todo.text}</span>
+
+        <div>
+          <span class="task-text ${todo.completed ? "completed" : ""}">
+            ${todo.text}
+          </span>
+          <br>
+          <small class="task-time">${todo.time}</small>
+        </div>
       </div>
 
-      <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+      <div class="action-buttons">
+        <button class="edit-btn" onclick="editTodo(${todo.id})">Edit</button>
+        <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+      </div>
     `;
 
     todoList.appendChild(li);
@@ -70,12 +78,21 @@ function toggleTodo(id) {
     if (todo.id === id) {
       todo.completed = !todo.completed;
     }
-
     return todo;
   });
 
   saveTodos();
   showTodos();
+}
+
+function editTodo(id) {
+  let todo = todos.find(function(todo) {
+    return todo.id === id;
+  });
+
+  todoInput.value = todo.text;
+  editId = id;
+  addBtn.innerText = "Update";
 }
 
 function deleteTodo(id) {
@@ -86,19 +103,6 @@ function deleteTodo(id) {
   saveTodos();
   showTodos();
 }
-
-filterBtns.forEach(function(button) {
-  button.addEventListener("click", function() {
-    filterBtns.forEach(function(btn) {
-      btn.classList.remove("active");
-    });
-
-    button.classList.add("active");
-    currentFilter = button.getAttribute("data-filter");
-
-    showTodos();
-  });
-});
 
 function saveTodos() {
   localStorage.setItem("todos", JSON.stringify(todos));

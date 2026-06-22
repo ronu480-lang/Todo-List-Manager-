@@ -35,15 +35,18 @@ p {
 
 .input-box {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 #todoInput {
-  flex: 1;
+  width: 100%;
   padding: 10px;
   border: 1px solid #aaa;
   border-radius: 5px;
+  outline: none;
 }
 
 button {
@@ -53,23 +56,35 @@ button {
   cursor: pointer;
 }
 
+#addBtn,
+.edit-btn,
+.delete-btn {
+  width: 50px;
+  height: 30px;
+  padding: 0px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+#addBtn {
+  min-width: 60px;
+  padding: 0 15px;
+}
+
 #addBtn {
   background: #2563eb;
   color: white;
 }
 
-.filter-buttons {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+.edit-btn {
+  background: #22c55e;
+  color: white;
 }
 
-.filter-btn {
-  background: #e5e7eb;
-}
-
-.filter-btn.active {
-  background: #2563eb;
+.delete-btn {
+  background: #ef4444;
   color: white;
 }
 
@@ -93,12 +108,37 @@ button {
   gap: 10px;
 }
 
+.task-text {
+  font-size: 15px;
+}
+
+.task-time {
+  font-size: 12px;
+  color: gray;
+}
+
 .completed {
   text-decoration: line-through;
   color: gray;
 }
 
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn {
+  background: #22c55e;
+  color: white;
+}
+
 .delete-btn {
   background: #ef4444;
   color: white;
+}
+
+@media (max-width: 600px) {
+  .action-buttons {
+    gap: 5px;
+  }
 }
