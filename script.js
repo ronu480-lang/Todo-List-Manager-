@@ -66,7 +66,7 @@ function showTodos() {
           </span>
           <br>
           <small class="task-time">
-            ${todo.date || "No date"} - ${todo.time}
+            📅 ${todo.date || "No date"} &nbsp;&nbsp; 🕒 ${todo.time}
           </small>
         </div>
       </div>
