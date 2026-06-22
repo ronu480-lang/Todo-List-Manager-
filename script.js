@@ -27,6 +27,7 @@ function addTodo() {
 
     editId = null;
     addBtn.innerText = "Add";
+    addBtn.classList.remove("update-mode");
   } else {
     let newTodo = {
       id: Date.now(),
@@ -64,8 +65,8 @@ function showTodos() {
       </div>
 
       <div class="action-buttons">
-        <button class="edit-btn" onclick="editTodo(${todo.id})">Edit</button>
-        <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+        <button type="button" class="edit-btn" onclick="editTodo(${todo.id})">Edit</button>
+        <button type="button" class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
       </div>
     `;
 
@@ -93,12 +94,21 @@ function editTodo(id) {
   todoInput.value = todo.text;
   editId = id;
   addBtn.innerText = "Update";
+  addBtn.classList.add("update-mode");
+  todoInput.focus();
 }
 
 function deleteTodo(id) {
   todos = todos.filter(function(todo) {
     return todo.id !== id;
   });
+
+  if (editId === id) {
+    editId = null;
+    addBtn.innerText = "Add";
+    addBtn.classList.remove("update-mode");
+    todoInput.value = "";
+  }
 
   saveTodos();
   showTodos();
