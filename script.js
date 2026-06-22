@@ -18,7 +18,7 @@ function addTodo() {
   }
 
   if (editId !== null) {
-    todos = todos.map(function(todo) {
+    todos = todos.map(function (todo) {
       if (todo.id === editId) {
         todo.text = task;
       }
@@ -29,13 +29,14 @@ function addTodo() {
     addBtn.innerText = "Add";
     addBtn.classList.remove("update-mode");
   } else {
-   let newTodo = {
-  id: Date.now(),
-  text: task,
-  completed: false,
-  date: new Date().toLocaleDateString(), // Date
-  time: new Date().toLocaleTimeString()  // Time
-};
+    let newTodo = {
+      id: Date.now(),
+      text: task,
+      completed: false,
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString()
+    };
+
     todos.push(newTodo);
   }
 
@@ -47,28 +48,37 @@ function addTodo() {
 function showTodos() {
   todoList.innerHTML = "";
 
-  todos.forEach(function(todo) {
+  todos.forEach(function (todo) {
     let li = document.createElement("li");
     li.className = "todo-item";
 
     li.innerHTML = `
       <div class="todo-left">
-        <input type="checkbox" ${todo.completed ? "checked" : ""} onchange="toggleTodo(${todo.id})">
+        <input 
+          type="checkbox" 
+          ${todo.completed ? "checked" : ""} 
+          onchange="toggleTodo(${todo.id})"
+        >
 
         <div>
-  <span class="task-text ${todo.completed ? "completed" : ""}">
-    ${todo.text}
-  </span>
-  <br>
-  <small class="task-time">
-    📅 ${todo.date} &nbsp;&nbsp; 🕒 ${todo.time}
-  </small>
-</div>
+          <span class="task-text ${todo.completed ? "completed" : ""}">
+            ${todo.text}
+          </span>
+          <br>
+          <small class="task-time">
+            📅 ${todo.date || "No date"} &nbsp;&nbsp; 🕒 ${todo.time}
+          </small>
+        </div>
       </div>
 
       <div class="action-buttons">
-        <button type="button" class="edit-btn" onclick="editTodo(${todo.id})">Edit</button>
-        <button type="button" class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+        <button type="button" class="edit-btn" onclick="editTodo(${todo.id})">
+          Edit
+        </button>
+
+        <button type="button" class="delete-btn" onclick="deleteTodo(${todo.id})">
+          Delete
+        </button>
       </div>
     `;
 
@@ -77,7 +87,7 @@ function showTodos() {
 }
 
 function toggleTodo(id) {
-  todos = todos.map(function(todo) {
+  todos = todos.map(function (todo) {
     if (todo.id === id) {
       todo.completed = !todo.completed;
     }
@@ -89,7 +99,7 @@ function toggleTodo(id) {
 }
 
 function editTodo(id) {
-  let todo = todos.find(function(todo) {
+  let todo = todos.find(function (todo) {
     return todo.id === id;
   });
 
@@ -101,7 +111,7 @@ function editTodo(id) {
 }
 
 function deleteTodo(id) {
-  todos = todos.filter(function(todo) {
+  todos = todos.filter(function (todo) {
     return todo.id !== id;
   });
 
